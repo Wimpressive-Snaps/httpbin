@@ -1,0 +1,22 @@
+name: httpbin
+base: core18
+version: 'git'
+summary: A simple HTTP Request & Response Service.
+description: |
+  See http://httpbin.org for more information.
+
+grade: stable
+confinement: strict
+
+parts:
+  httpbin:
+    plugin: python
+    source: .
+    python-packages:
+      - gunicorn
+
+apps:
+  httpbin:
+    command: gunicorn -b 0.0.0.0:80 httpbin:app -k gevent
+    plugs:
+      - network-bind
